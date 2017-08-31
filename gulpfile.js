@@ -1,7 +1,10 @@
 var gulp = require('gulp');
+var gutil = require("gulp-util");
+var webpack = require("webpack");
 var inject = require('gulp-inject');
 var webserver = require('gulp-webserver');
 var connect = require('gulp-connect-php');
+var gnf = require('gulp-npm-files');
 
 var htmlclean = require('gulp-htmlclean');
 var cleanCSS = require('gulp-clean-css');
@@ -20,13 +23,51 @@ var paths = {
     public: 'public',
     publicIndex: 'public/index.php',
     publicCSS: 'public/**/*.css',
-    publicJS: 'public/**/*.js',
+    publicJS: 'public/dist/**/*.js',
 
     dist: 'dist',
     distIndex: 'dist/index.php',
     distCSS: 'dist/**/*.css',
     distJS: 'dist/**/*.js'
 };
+
+gulp.task("webpack", function(callback) {
+    // run webpack
+    return webpack({
+        entry: [ __dirname + "/src/js/main.js"],
+        output: {
+            path: __dirname + "/dist/",
+            publicPath: __dirname + "/public/",
+            filename: "[name].bundle.js",
+            chunkFilename: "[id].bundle.js"
+        },
+        plugins: [
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jquery: 'jquery',
+                'window.jQuery': 'jquery',
+                jQuery: 'jquery'
+            })
+        ],
+        resolve: {
+            alias: {
+                'jquery': __dirname + '/node_modules/jquery/dist/jquery.js'
+            }
+        },
+        module: {
+            loaders: [
+                { test: /\.css$/, loader: "style!css" },
+                { test: /\.(png|jpg)$/, loader: 'file-loader' }
+            ],
+        }
+    }, function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+        gutil.log("[webpack]", stats.toString({
+            colors: true
+        }));
+        callback();
+    });
+});
 
 gulp.task('html', function () {
     return gulp.src(paths.srcHTML).pipe(gulp.dest(paths.public));
@@ -36,8 +77,8 @@ gulp.task('css', function () {
     return gulp.src(paths.srcCSS).pipe(gulp.dest(paths.public));
 });
 
-gulp.task('js', function () {
-    return gulp.src(paths.distJS).pipe(gulp.dest(paths.public));
+gulp.task('js', ['webpack'], function () {
+    return gulp.src(paths.distJS).pipe(gulp.dest('./public/dist'));
 });
 
 gulp.task('php', function () {
@@ -48,8 +89,14 @@ gulp.task('img', function () {
     return gulp.src(paths.srcIMG).pipe(gulp.dest(paths.public));
 });
 
-gulp.task('copy', ['html', 'css', 'js', 'php', 'img']);
+// copia las dependecias listadas en el package.json a la direccion especificada
+gulp.task('copyNpm', function() {
+    gulp.src(gnf(), {base:'./'}).pipe(gulp.dest('./public/build'));
+});
 
+gulp.task('copy', ['html', 'css', 'js', 'php', 'img', 'copyNpm']);
+
+// inyecta las nuevas direcciones publicas de los archivos de css y js en el index de la carpeta public
 gulp.task('inject', ['copy'], function () {
     var css = gulp.src(paths.publicCSS);
     var js = gulp.src(paths.publicJS);
@@ -59,6 +106,7 @@ gulp.task('inject', ['copy'], function () {
         .pipe(gulp.dest(paths.public));
 });
 
+// inicializa un servidor web de gulp para la aplicacion
 gulp.task('serve', ['inject'], function () {
     return gulp.src(paths.public)
         .pipe(webserver({
@@ -71,6 +119,7 @@ gulp.task('serve', ['inject'], function () {
 //     gulp.watch(paths.src, ['inject']);
 // });
 
+// conecta el servidor de gulp con el servicio de php
 gulp.task('connect', ['inject'], function() {
     connect.server({
         port: 8000,
@@ -119,6 +168,7 @@ gulp.task('inject:dist', ['copy:dist'], function () {
 
 gulp.task('build', ['inject:dist']);
 
+// elimina las carpetas de public y dist
 gulp.task('clean', function () {
     del([paths.public, paths.dist]);
 });
