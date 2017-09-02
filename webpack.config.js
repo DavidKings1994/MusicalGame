@@ -18,7 +18,8 @@ module.exports = {
     ],
     resolve: {
         alias: {
-            'jquery': __dirname + '/node_modules/jquery/dist/jquery.js'
+            'jquery': __dirname + '/node_modules/jquery/dist/jquery.js',
+            'three': __dirname + '/node_modules/three/build/three.js'
         }
     },
     module: {

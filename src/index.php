@@ -30,7 +30,7 @@
                 </ul>
             </div>
         </div>
-        <div class="game">
+        <div id="game">
 
         </div>
 
