@@ -36,15 +36,19 @@ define(['three','./player'],  function(THREE, Player) {
         // crear jugadores
         GameNamespace.players = new Array(parameters.numberOfPlayers);
         for (var i = 0; i < GameNamespace.players.length; i++) {
-            GameNamespace.players[i] = new Player();
+            GameNamespace.players[i] = new Player({
+                index: i,
+                songPath: ''
+            });
+            GameNamespace.scene.add( GameNamespace.players[i].mesh );
         }
 
-		var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-		var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-		var cube = new THREE.Mesh( geometry, material );
-		GameNamespace.scene.add( cube );
-
-		GameNamespace.camera.position.z = 5;
+        var totalSpace = (5 * parameters.numberOfPlayers) - 4;
+        var center = (parameters.numberOfPlayers > 1 ? (totalSpace / 2) : 0);
+        GameNamespace.camera.position.x = center;
+		GameNamespace.camera.position.z = 10;
+        GameNamespace.camera.position.y = 5;
+        GameNamespace.camera.lookAt(new THREE.Vector3(center, 0, 0));
 
         GameNamespace.prototype.render();
     }
