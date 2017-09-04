@@ -14,8 +14,56 @@ define(['three','./player'],  function(THREE, Player) {
         return GameNamespace;
     }());
 
-    GameNamespace.prototype.update = function () {
+    GameNamespace.prototype.keyboardEvent = function(event) {
+        if(GameNamespace.ready) {
+            // var up = (event.type == 'keyup');
+            //
+            // if(!up && event.type !== 'keydown')
+            //     return;
 
+            for (var i = 0; i < GameNamespace.players.length; i++) {
+                switch(event.keyCode) {
+                    case GameNamespace.players[i].rails[0].key: {
+                        if (event.type == 'keydown') {
+                            GameNamespace.players[i].rails[0].status = true;
+                        } else if (event.type == 'keyup') {
+                            GameNamespace.players[i].rails[0].status = false;
+                        }
+                        break;
+                    }
+                    case GameNamespace.players[i].rails[1].key: {
+                        if (event.type == 'keydown') {
+                            GameNamespace.players[i].rails[1].status = true;
+                        } else if (event.type == 'keyup') {
+                            GameNamespace.players[i].rails[1].status = false;
+                        }
+                        break;
+                    }
+                    case GameNamespace.players[i].rails[2].key: {
+                        if (event.type == 'keydown') {
+                            GameNamespace.players[i].rails[2].status = true;
+                        } else if (event.type == 'keyup') {
+                            GameNamespace.players[i].rails[2].status = false;
+                        }
+                        break;
+                    }
+                    case GameNamespace.players[i].rails[3].key: {
+                        if (event.type == 'keydown') {
+                            GameNamespace.players[i].rails[3].status = true;
+                        } else if (event.type == 'keyup') {
+                            GameNamespace.players[i].rails[3].status = false;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    GameNamespace.prototype.update = function () {
+        for (var i = 0; i < GameNamespace.players.length; i++) {
+            GameNamespace.players[i].update();
+        }
     };
 
     GameNamespace.prototype.render = function () {
@@ -26,6 +74,7 @@ define(['three','./player'],  function(THREE, Player) {
 
     $.fn.initGame = function( parameters ) {
         //inicializar escena
+        GameNamespace.ready = false;
         GameNamespace.scene = new THREE.Scene();
 		GameNamespace.camera = new THREE.PerspectiveCamera( 75, parameters.windowWidth/parameters.windowHeight, 0.1, 1000 );
 
@@ -50,6 +99,12 @@ define(['three','./player'],  function(THREE, Player) {
         GameNamespace.camera.position.y = 5;
         GameNamespace.camera.lookAt(new THREE.Vector3(center, 0, 0));
 
+        GameNamespace.ready = true;
         GameNamespace.prototype.render();
+
+        document.addEventListener( 'keydown', GameNamespace.prototype.keyboardEvent, false );
+        document.addEventListener( 'keyup', GameNamespace.prototype.keyboardEvent, false );
+
+        console.log(GameNamespace.players);
     }
 });

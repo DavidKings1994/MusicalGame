@@ -102,8 +102,8 @@ gulp.task('copy', ['html', 'css', 'js', 'php', 'img', 'copyNpm']);
 
 // inyecta las nuevas direcciones publicas de los archivos de css y js en el index de la carpeta public
 gulp.task('inject', ['copy'], function () {
-    var indexCss = gulp.src([paths.publicCSS, 'public/css/main.css']);
-    var landingCss = gulp.src([paths.publicCSS, 'public/css/landing.css']);
+    var indexCss = gulp.src([paths.publicCSS, 'public/css/main.css'], { read: false });
+    var landingCss = gulp.src([paths.publicCSS, 'public/css/landing.css'], { read: false });
     var js = gulp.src(paths.publicJS);
     var indexInject = gulp.src(paths.publicIndex)
         .pipe(inject( indexCss, { relative:true } ))
