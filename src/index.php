@@ -51,6 +51,50 @@
         <div id="game">
 
         </div>
+
+        <div id="songList">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Lista de canciones</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#game" class="list-group-item" data-toggle="tooltip" title="Cancion facil" data-placement="left">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="img/easy.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Titulo de la cancion</h4>
+                                    <p>creada por tal persona en tal fecha</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#game" class="list-group-item" data-toggle="tooltip" title="Cancion intermedia" data-placement="left">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="img/medium.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Titulo de la cancion</h4>
+                                    <p>creada por tal persona en tal fecha</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#game" class="list-group-item" data-toggle="tooltip" title="Cancion dificil" data-placement="left">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="img/hard.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Titulo de la cancion</h4>
+                                    <p>creada por tal persona en tal fecha</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal -->
         <div id="configurations" class="modal fade" role="dialog">
             <div class="modal-dialog">

@@ -1,4 +1,7 @@
 define(['bootstrap', './game/game'],  function(Bootstrap, Game) {
+    
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('#game').initGame({
         numberOfPlayers: 1,
         windowHeight: 600,
@@ -6,6 +9,6 @@ define(['bootstrap', './game/game'],  function(Bootstrap, Game) {
     });
 
     $('#saveConfig').click(function() {
-        
+
     });
 });

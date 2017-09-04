@@ -9,6 +9,15 @@ define(['./song'],  function(Song) {
 		var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         this.mesh = new THREE.Mesh( geometry, material );
         this.mesh.position.x = this.index * 5;
+        var hitArea = new THREE.BoxGeometry( 4, 1, 1 );
+        var hitMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+        hitMaterial.transparent = true;
+        hitMaterial.opacity = 0.3;
+        hitMaterial.needsUpdate = true;
+        var hit = new THREE.Mesh( hitArea, hitMaterial );
+        hit.position.z = 6;
+        hit.position.y = 0.5;
+        this.mesh.add(hit);
     };
 
     Player.prototype = {

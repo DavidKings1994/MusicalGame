@@ -18,6 +18,20 @@ body {
     margin: 0 auto;
 }
 
+#songList {
+    display: block;
+    margin: 40px auto;
+    width: 80%;
+}
+
+#songList .panel-body {
+    background-color: #222;
+}
+
+#songList .list-group a {
+    margin-bottom: 10px;
+}
+
 .screen {
     width: 100%;
     height: 100%;
