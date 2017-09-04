@@ -22,7 +22,7 @@ var paths = {
 
     public: 'public',
     publicIndex: 'public/index.php',
-    publicCSS: 'public/**/*.css',
+    publicCSS: 'public/build/**/*.css',
     publicJS: 'public/dist/**/*.js',
 
     dist: 'dist',
@@ -34,7 +34,9 @@ var paths = {
 gulp.task("webpack", function(callback) {
     // run webpack
     return webpack({
-        entry: [ __dirname + "/src/js/main.js"],
+        entry: [
+            __dirname + "/src/js/main.js"
+        ],
         output: {
             path: __dirname + "/dist/",
             publicPath: __dirname + "/public/",
@@ -52,7 +54,8 @@ gulp.task("webpack", function(callback) {
         resolve: {
             alias: {
                 'jquery': __dirname + '/node_modules/jquery/dist/jquery.js',
-                'three': __dirname + '/node_modules/three/build/three.js'
+                'three': __dirname + '/node_modules/three/build/three.js',
+                'bootstrap': __dirname + '/node_modules/bootstrap/dist/js/bootstrap.js'
             }
         },
         module: {
@@ -99,12 +102,18 @@ gulp.task('copy', ['html', 'css', 'js', 'php', 'img', 'copyNpm']);
 
 // inyecta las nuevas direcciones publicas de los archivos de css y js en el index de la carpeta public
 gulp.task('inject', ['copy'], function () {
-    var css = gulp.src(paths.publicCSS);
+    var indexCss = gulp.src([paths.publicCSS, 'public/css/main.css']);
+    var landingCss = gulp.src([paths.publicCSS, 'public/css/landing.css']);
     var js = gulp.src(paths.publicJS);
-    return gulp.src(paths.publicIndex)
-        .pipe(inject( css, { relative:true } ))
+    var indexInject = gulp.src(paths.publicIndex)
+        .pipe(inject( indexCss, { relative:true } ))
         .pipe(inject( js, { relative:true } ))
         .pipe(gulp.dest(paths.public));
+    var landingInject = gulp.src('public/landing.php')
+        .pipe(inject( landingCss, { relative:true } ))
+        .pipe(inject( js, { relative:true } ))
+        .pipe(gulp.dest(paths.public));
+    return [indexInject, landingInject];
 });
 
 // inicializa un servidor web de gulp para la aplicacion
