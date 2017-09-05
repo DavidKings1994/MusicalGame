@@ -33,25 +33,40 @@
                 </ul>
             </div>
         </nav>
-        <div class="screen content-fluid">
+
+        <!-- Menu de inicio -->
+        <div id="startMenu" class="screen content-fluid">
             <div class="options col-md-6 offset-md-3">
-                <ul>
-                    <li class="option">
-                        Play
-                    </li>
-                    <li class="option">
-                        Multiplayer
-                    </li>
-                    <li class="option">
-                        Options
-                    </li>
-                </ul>
+                <div class="well well-lg">
+                    <div class="page-header">
+                        <h1>Menu inicial</h1>
+                    </div>
+                    <button type="button" id="btnPlay" class="btn btn-success btn-lg btn-block">Jugar</button>
+                    <button type="button" id="btnRecord" class="btn btn-success btn-lg btn-block">Grabar cancion</button>
+                    <button type="button" id="btnMultiplayer" class="btn btn-success btn-lg btn-block">Multijugador</button>
+                </div>
             </div>
         </div>
+
+        <!-- Menu de pausa -->
+        <div id="pauseMenu" class="screen content-fluid">
+            <div class="options col-md-6 offset-md-3">
+                <div class="well well-lg">
+                    <div class="page-header">
+                        <h1>Menu de pausa</h1>
+                    </div>
+                    <button type="button" id="btnContinue" class="btn btn-success btn-lg btn-block">Continuar</button>
+                    <button type="button" id="btnExit" class="btn btn-success btn-lg btn-block">Salir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de juego -->
         <div id="game">
 
         </div>
 
+        <!-- Lista de canciones -->
         <div id="songList">
             <div class="panel panel-primary">
                 <div class="panel-heading">Lista de canciones</div>
@@ -95,17 +110,19 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal de configuraciones -->
         <div id="configurations" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                        <h4 class="modal-title">Opciones</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <div class="form-group">
+                            <label for="email">Volumen:</label>
+                            <input type="range" class="form-control" name="volume" min="0" max="100">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -115,6 +132,7 @@
 
             </div>
         </div>
+
         <!--[htmlclean-protect]-->
         <!-- inject:js -->
         <!-- endinject -->

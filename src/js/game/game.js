@@ -16,11 +16,20 @@ define(['three','./player'],  function(THREE, Player) {
 
     GameNamespace.prototype.keyboardEvent = function(event) {
         if(GameNamespace.ready) {
-            // var up = (event.type == 'keyup');
-            //
-            // if(!up && event.type !== 'keydown')
-            //     return;
-
+            // eventos generales
+            switch(event.keyCode) {
+                case 27: {
+                    if (event.type == 'keyup') {
+                        if (GameNamespace.paused) {
+                            $(document).trigger('unpause');
+                        } else {
+                            $(document).trigger('pause');
+                        }
+                    }
+                    break;
+                }
+            }
+            // eventos de cada jugador
             for (var i = 0; i < GameNamespace.players.length; i++) {
                 switch(event.keyCode) {
                     case GameNamespace.players[i].rails[0].key: {
@@ -75,6 +84,7 @@ define(['three','./player'],  function(THREE, Player) {
     $.fn.initGame = function( parameters ) {
         //inicializar escena
         GameNamespace.ready = false;
+        GameNamespace.paused = false;
         GameNamespace.scene = new THREE.Scene();
 		GameNamespace.camera = new THREE.PerspectiveCamera( 75, parameters.windowWidth/parameters.windowHeight, 0.1, 1000 );
 
@@ -84,10 +94,15 @@ define(['three','./player'],  function(THREE, Player) {
 
         // crear jugadores
         GameNamespace.players = new Array(parameters.numberOfPlayers);
+        var keys = [
+            [65,83,68,70],
+            [72,74,75,76]
+        ];
         for (var i = 0; i < GameNamespace.players.length; i++) {
             GameNamespace.players[i] = new Player({
                 index: i,
-                songPath: ''
+                songPath: '',
+                keys: keys[i]
             });
             GameNamespace.scene.add( GameNamespace.players[i].mesh );
         }
@@ -104,7 +119,5 @@ define(['three','./player'],  function(THREE, Player) {
 
         document.addEventListener( 'keydown', GameNamespace.prototype.keyboardEvent, false );
         document.addEventListener( 'keyup', GameNamespace.prototype.keyboardEvent, false );
-
-        console.log(GameNamespace.players);
     }
 });

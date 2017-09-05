@@ -5,22 +5,22 @@ define(['./song'],  function(Song) {
         this.song = new Song(parameters.songPath);
         this.rails = [
             {
-                key: 65,
+                key: parameters.keys[0],
                 status: false,
                 mesh: null
             },
             {
-                key: 83,
+                key: parameters.keys[1],
                 status: false,
                 mesh: null
             },
             {
-                key: 68,
+                key: parameters.keys[2],
                 status: false,
                 mesh: null
             },
             {
-                key: 70,
+                key: parameters.keys[3],
                 status: false,
                 mesh: null
             },
@@ -39,7 +39,7 @@ define(['./song'],  function(Song) {
             var hitArea = new THREE.BoxGeometry( 1, 1, 1 );
             var hitMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
             hitMaterial.transparent = true;
-            hitMaterial.opacity = 0.3;
+            hitMaterial.opacity = 0.7;
             hitMaterial.needsUpdate = true;
             this.rails[i].mesh = new THREE.Mesh( hitArea, hitMaterial );
             this.rails[i].mesh.position.x = i - 1.5;
@@ -60,7 +60,6 @@ define(['./song'],  function(Song) {
                 } else {
                     this.rails[i].mesh.material.color.setHex(0x0000ff);
                 }
-                // this.rails[i].status = false;
             }
         },
 
