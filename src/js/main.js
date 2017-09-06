@@ -38,13 +38,19 @@ define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game
 
             sound.once('end', function(){
                 $('#game').empty();
-                $("#startMenu").show();
+                $("#songForm").show();
             });
 
             sound.on('loaderror', function(code, message){
                 console.log(message);
             });
         });
+    });
+
+    $("#saveSong").click(function() {
+        window.Game.players[0].song.save(new FormData($("#uploadSongForm")[0]));
+        $("#songForm").hide();
+        $("#startMenu").show();
     });
 
     $('#btnMultiplayer').click(function() {

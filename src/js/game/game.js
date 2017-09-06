@@ -129,4 +129,6 @@ define(['three','./player'],  function(THREE, Player) {
         document.addEventListener( 'keydown', GameNamespace.prototype.keyboardEvent, false );
         document.addEventListener( 'keyup', GameNamespace.prototype.keyboardEvent, false );
     }
+
+    window.Game = GameNamespace;
 });

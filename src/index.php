@@ -44,7 +44,6 @@
                     <button type="button" id="btnPlay" class="btn btn-success btn-lg btn-block">Jugar</button>
                     <button type="button" id="btnRecord" class="btn btn-success btn-lg btn-block">Grabar cancion</button>
                     <button type="button" id="btnMultiplayer" class="btn btn-success btn-lg btn-block">Multijugador</button>
-                    <input type="file" id="uploadSong" name="song" accept=".mp3">
                 </div>
             </div>
         </div>
@@ -58,6 +57,39 @@
                     </div>
                     <button type="button" id="btnContinue" class="btn btn-success btn-lg btn-block">Continuar</button>
                     <button type="button" id="btnExit" class="btn btn-success btn-lg btn-block">Salir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario para guardar cancion -->
+        <div id="songForm" class="screen content-fluid">
+            <div class="options col-md-6 offset-md-3">
+                <div class="well well-lg">
+                    <div class="page-header">
+                        <h1>Datos de la cancion</h1>
+                    </div>
+                    <form id="uploadSongForm" class="form-horizontal" enctype="multipart/form-data">
+                        <input type="file" id="uploadSong" name="song" accept=".mp3">
+                        <input type="hidden" name="action" value="registro">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="name">Nombre:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nombre de la cancion" required maxlength="45">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="dificulty">Correo:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="dificulty" name="dificulty">
+                                    <option value="EASY">Facil</option>
+                                    <option value="MEDIUM">Intermedio</option>
+                                    <option value="HARD">Dificil</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="saveSong">Guardar</button>
                 </div>
             </div>
         </div>
