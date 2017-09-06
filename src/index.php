@@ -44,6 +44,7 @@
                     <button type="button" id="btnPlay" class="btn btn-success btn-lg btn-block">Jugar</button>
                     <button type="button" id="btnRecord" class="btn btn-success btn-lg btn-block">Grabar cancion</button>
                     <button type="button" id="btnMultiplayer" class="btn btn-success btn-lg btn-block">Multijugador</button>
+                    <input type="file" id="uploadSong" name="song" accept=".mp3">
                 </div>
             </div>
         </div>

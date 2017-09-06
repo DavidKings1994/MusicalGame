@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/DavidKings1994/MusicalGame#readme",
   "dependencies": {
-    "jquery": "^3.2.1",
     "bootstrap": "^3.3.7",
+    "howler": "^2.0.4",
+    "jquery": "^3.2.1",
     "three": "^0.87.1"
   },
   "devDependencies": {

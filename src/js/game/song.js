@@ -18,6 +18,12 @@ define(['./note'],  function(Note) {
 
         createNote: function(rail) {
 
+        },
+
+        saveSong: function() {
+            $.ajax({
+                
+            });
         }
     };
 

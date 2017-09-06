@@ -28,6 +28,10 @@ body {
     text-align: center;
 }
 
+#startMenu input[type="file"] {
+    display: none;
+}
+
 #songList {
     display: block;
     margin: 40px auto;

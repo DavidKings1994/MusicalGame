@@ -66,6 +66,14 @@ define(['three','./player'],  function(THREE, Player) {
                     }
                 }
             }
+
+            // record
+            if (GameNamespace.mode == 'record') {
+                GameNamespace.players[0].song.chords.push({
+                    time: 0,
+                    notes: []
+                })
+            }
         }
     }
 
@@ -85,6 +93,7 @@ define(['three','./player'],  function(THREE, Player) {
         //inicializar escena
         GameNamespace.ready = false;
         GameNamespace.paused = false;
+        GameNamespace.mode = parameters.mode;
         GameNamespace.scene = new THREE.Scene();
 		GameNamespace.camera = new THREE.PerspectiveCamera( 75, parameters.windowWidth/parameters.windowHeight, 0.1, 1000 );
 

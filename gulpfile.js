@@ -55,7 +55,8 @@ gulp.task("webpack", function(callback) {
             alias: {
                 'jquery': __dirname + '/node_modules/jquery/dist/jquery.js',
                 'three': __dirname + '/node_modules/three/build/three.js',
-                'bootstrap': __dirname + '/node_modules/bootstrap/dist/js/bootstrap.js'
+                'bootstrap': __dirname + '/node_modules/bootstrap/dist/js/bootstrap.js',
+                'howler': __dirname + '/node_modules/howler/dist/howler.js'
             }
         },
         module: {

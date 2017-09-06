@@ -1,4 +1,4 @@
-define(['bootstrap', './game/game'],  function(Bootstrap, Game) {
+define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game) {
 
     $("#pauseMenu").hide();
     $('[data-toggle="tooltip"]').tooltip();
@@ -15,14 +15,36 @@ define(['bootstrap', './game/game'],  function(Bootstrap, Game) {
     });
 
     $('#btnRecord').click(function() {
-        $('#game').empty();
-        $('#game').initGame({
-            numberOfPlayers: 1,
-            windowHeight: 600,
-            windowWidth: 800,
-            mode: 'record'
+        $('#uploadSong').trigger('click');
+        $('#uploadSong').on('change', function(event) {
+            $('#game').empty();
+            $('#game').initGame({
+                numberOfPlayers: 1,
+                windowHeight: 600,
+                windowWidth: 800,
+                mode: 'record'
+            });
+            $("#startMenu").hide();
+
+            var sound = new Howl({
+                src: [window.URL.createObjectURL(event.target.files[0])],
+                format: ['mp3']
+            });
+
+            sound.once('load', function(){
+                var id = sound.play();
+                sound.fade(0, 1, 1000, id);
+            });
+
+            sound.once('end', function(){
+                $('#game').empty();
+                $("#startMenu").show();
+            });
+
+            sound.on('loaderror', function(code, message){
+                console.log(message);
+            });
         });
-        $("#startMenu").hide();
     });
 
     $('#btnMultiplayer').click(function() {
