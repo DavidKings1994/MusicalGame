@@ -1,9 +1,19 @@
 <?php
 include_once  './../connection.php';
+include_once  './../templates/songListItem.php';
 $conexion = new Conexion();
 
 if(isset($_POST['action'])) {
     switch ($_POST['action']) {
+        case 'songList': {
+            $resul = mysqli_query($conexion->GetConexion(), "CALL songList()");
+            $songs = array();
+            while($row = mysqli_fetch_assoc($resul)) {
+                $songs[] = $row;
+            }
+            echo createSongList($songs);
+            break;
+        }
         case 'selectSong': {
             break;
         }

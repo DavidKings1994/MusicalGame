@@ -1,17 +1,47 @@
 define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game) {
 
     $("#pauseMenu").hide();
-    $('[data-toggle="tooltip"]').tooltip();
 
     $('#btnPlay').click(function() {
-        $('#game').empty();
-        $('#game').initGame({
-            numberOfPlayers: 1,
-            windowHeight: 600,
-            windowWidth: 800,
-            mode: 'play'
-        });
         $("#startMenu").hide();
+        $("#songList").show();
+        $.ajax({
+            url: './php/controllers/SongController.php',
+            type: 'POST',
+            data: {
+                action: 'songList'
+            },
+            success: function(list) {
+                $('#songList .panel-body').empty();
+                $('#songList .panel-body').append(list);
+                $('[data-toggle="tooltip"]').tooltip();
+
+                $('#songList a').click(function() {
+                    $("#startMenu").hide();
+                    $('#songList .panel-body').empty();
+                    $("#songList").hide();
+                    $('#game').empty();
+                    $('#game').initGame({
+                        numberOfPlayers: 1,
+                        windowHeight: 600,
+                        windowWidth: 800,
+                        mode: 'play'
+                    });
+                });
+
+                $('#songList a').on('mouseenter', function() {
+                    var sound = new Howl({
+                        src: [$(this).attr('data-path')],
+                        format: ['mp3']
+                    });
+                    var id = sound.play();
+                    sound.fade(0, 1, 2000, id);
+                    $(this).on('mouseleave', function() {
+                        sound.fade(1, 0, 2000, id).stop(id);
+                    });
+                });
+            }
+        });
     });
 
     $('#btnRecord').click(function() {
@@ -32,8 +62,7 @@ define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game
             });
 
             sound.once('load', function(){
-                var id = sound.play();
-                sound.fade(0, 1, 1000, id);
+                sound.play();
             });
 
             sound.once('end', function(){
