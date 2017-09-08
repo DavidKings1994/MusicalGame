@@ -14,7 +14,19 @@ if(isset($_POST['action'])) {
             echo createSongList($songs);
             break;
         }
-        case 'selectSong': {
+        case 'getSongChords': {
+            $query = mysqli_prepare($conexion->GetConexion(), "CALL getSongChords(?)");
+            $query->bind_param('i', $_POST['idSong']);
+            if ($query->execute()) {
+                $query->bind_result($chords);
+                if ($query->fetch()) {
+                    echo $chords;
+                } else {
+                    $query->error;
+                }
+            } else {
+                $query->error;
+            }
             break;
         }
         case 'createSong': {

@@ -16,28 +16,34 @@ define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game
                 $('#songList .panel-body').append(list);
                 $('[data-toggle="tooltip"]').tooltip();
 
-                $('#songList a').click(function() {
-                    $("#startMenu").hide();
-                    $('#songList .panel-body').empty();
-                    $("#songList").hide();
-                    $('#game').empty();
-                    $('#game').initGame({
-                        numberOfPlayers: 1,
-                        windowHeight: 600,
-                        windowWidth: 800,
-                        mode: 'play'
-                    });
-                });
-
-                $('#songList a').on('mouseenter', function() {
+                $('#songList a').on('mouseenter', function(event) {
+                    var self = this;
                     var sound = new Howl({
                         src: [$(this).attr('data-path')],
                         format: ['mp3']
                     });
                     var id = sound.play();
                     sound.fade(0, 1, 2000, id);
+
                     $(this).on('mouseleave', function() {
                         sound.fade(1, 0, 2000, id).stop(id);
+                    });
+
+                    $(this).off('click');
+                    $(this).on('click', function() {
+                        sound.stop(id);
+                        $("#startMenu").hide();
+                        $('#songList .panel-body').empty();
+                        $("#songList").hide();
+                        $('#game').empty();
+                        $('#game').initGame({
+                            numberOfPlayers: 1,
+                            windowHeight: 600,
+                            windowWidth: 800,
+                            mode: 'play',
+                            songPath: $(self).attr('data-path'),
+                            idSong: $(self).attr('data-idSong')
+                        });
                     });
                 });
             }

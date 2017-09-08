@@ -110,7 +110,8 @@ define(['three','./player'],  function(THREE, Player) {
         for (var i = 0; i < GameNamespace.players.length; i++) {
             GameNamespace.players[i] = new Player({
                 index: i,
-                songPath: '',
+                songPath: parameters.songPath,
+                idSong: parameters.idSong,
                 keys: keys[i]
             });
             GameNamespace.scene.add( GameNamespace.players[i].mesh );

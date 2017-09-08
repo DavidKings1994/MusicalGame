@@ -2,7 +2,10 @@ define(['./song'],  function(Song) {
 
     var Player = function(parameters) {
         this.index = parameters.index;
-        this.song = new Song(parameters.songPath);
+        this.song = new Song({
+            songPath: parameters.songPath,
+            idSong: parameters.idSong
+        });
         this.rails = [
             {
                 key: parameters.keys[0],
