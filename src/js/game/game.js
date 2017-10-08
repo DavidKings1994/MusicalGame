@@ -33,58 +33,79 @@ define(['three','./player'],  function(THREE, Player) {
             for (var i = 0; i < GameNamespace.players.length; i++) {
                 switch(event.keyCode) {
                     case GameNamespace.players[i].rails[0].key: {
-                        if (event.type == 'keydown') {
+                        if (event.type == 'keydown' && !GameNamespace.players[i].rails[0].status) {
                             GameNamespace.players[i].rails[0].status = true;
-                        } else if (event.type == 'keyup') {
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[0].push(GameNamespace.elapsedTime / 1000);
+                            }
+                        } else if (event.type == 'keyup' && GameNamespace.players[i].rails[0].status) {
                             GameNamespace.players[i].rails[0].status = false;
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[0].push(GameNamespace.elapsedTime / 1000);
+                            }
                         }
                         break;
                     }
                     case GameNamespace.players[i].rails[1].key: {
-                        if (event.type == 'keydown') {
+                        if (event.type == 'keydown' && !GameNamespace.players[i].rails[1].status) {
                             GameNamespace.players[i].rails[1].status = true;
-                        } else if (event.type == 'keyup') {
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[1].push(GameNamespace.elapsedTime / 1000);
+                            }
+                        } else if (event.type == 'keyup' && GameNamespace.players[i].rails[1].status) {
                             GameNamespace.players[i].rails[1].status = false;
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[1].push(GameNamespace.elapsedTime / 1000);
+                            }
                         }
                         break;
                     }
                     case GameNamespace.players[i].rails[2].key: {
-                        if (event.type == 'keydown') {
+                        if (event.type == 'keydown' && !GameNamespace.players[i].rails[2].status) {
                             GameNamespace.players[i].rails[2].status = true;
-                        } else if (event.type == 'keyup') {
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[2].push(GameNamespace.elapsedTime / 1000);
+                            }
+                        } else if (event.type == 'keyup' && GameNamespace.players[i].rails[2].status) {
                             GameNamespace.players[i].rails[2].status = false;
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[2].push(GameNamespace.elapsedTime / 1000);
+                            }
                         }
                         break;
                     }
                     case GameNamespace.players[i].rails[3].key: {
-                        if (event.type == 'keydown') {
+                        if (event.type == 'keydown' && !GameNamespace.players[i].rails[3].status) {
                             GameNamespace.players[i].rails[3].status = true;
-                        } else if (event.type == 'keyup') {
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[3].push(GameNamespace.elapsedTime / 1000);
+                            }
+                        } else if (event.type == 'keyup' && GameNamespace.players[i].rails[3].status) {
                             GameNamespace.players[i].rails[3].status = false;
+                            if (GameNamespace.mode == 'record') {
+                                GameNamespace.players[0].song.lanes[3].push(GameNamespace.elapsedTime / 1000);
+                            }
                         }
                         break;
                     }
                 }
             }
-
-            // record
-            if (GameNamespace.mode == 'record') {
-                GameNamespace.players[0].song.chords.push({
-                    time: 0,
-                    notes: []
-                })
-            }
         }
     }
 
     GameNamespace.prototype.update = function () {
+        var d = new Date();
+        GameNamespace.actualTime = d.getTime();
+        GameNamespace.elapsedTime = GameNamespace.actualTime - GameNamespace.startTime;
         for (var i = 0; i < GameNamespace.players.length; i++) {
             GameNamespace.players[i].update();
         }
     };
 
     GameNamespace.prototype.render = function () {
-        requestAnimationFrame( GameNamespace.prototype.render );
+        setTimeout( function() {
+            requestAnimationFrame( GameNamespace.prototype.render );
+        }, 1000 / 30 );
         GameNamespace.prototype.update();
         GameNamespace.renderer.render(GameNamespace.scene, GameNamespace.camera);
     };
@@ -94,6 +115,18 @@ define(['three','./player'],  function(THREE, Player) {
         GameNamespace.ready = false;
         GameNamespace.paused = false;
         GameNamespace.mode = parameters.mode;
+
+        var d = new Date();
+        GameNamespace.startTime = d.getTime();
+        GameNamespace.actualTime = GameNamespace.startTime;
+        GameNamespace.elapsedTime = 0;
+        $(document).on('songStarted', function() {
+            GameNamespace.elapsedTime = 0;
+        });
+        $(document).on('recordStarted', function() {
+            GameNamespace.elapsedTime = 0;
+        });
+
         GameNamespace.scene = new THREE.Scene();
 		GameNamespace.camera = new THREE.PerspectiveCamera( 75, parameters.windowWidth/parameters.windowHeight, 0.1, 1000 );
 
@@ -104,8 +137,8 @@ define(['three','./player'],  function(THREE, Player) {
         // crear jugadores
         GameNamespace.players = new Array(parameters.numberOfPlayers);
         var keys = [
-            [65,83,68,70],
-            [72,74,75,76]
+            [65,83,68,70], // ASDF
+            [72,74,75,76] // HJKL
         ];
         for (var i = 0; i < GameNamespace.players.length; i++) {
             GameNamespace.players[i] = new Player({

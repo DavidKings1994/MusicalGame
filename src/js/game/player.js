@@ -50,6 +50,11 @@ define(['./song'],  function(Song) {
             this.rails[i].mesh.position.y = 0.5;
             this.mesh.add(this.rails[i].mesh);
         }
+
+        $(document).on('songReady', () => {
+            this.mesh.add(this.song.noteGroup);
+            console.log(this.song.noteGroup);
+        });
     };
 
     Player.prototype = {

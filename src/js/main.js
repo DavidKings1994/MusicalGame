@@ -68,6 +68,7 @@ define(['bootstrap', 'howler', './game/game'],  function(Bootstrap, Howler, Game
             });
 
             sound.once('load', function(){
+                $(document).trigger('recordStarted');
                 sound.play();
             });
 
